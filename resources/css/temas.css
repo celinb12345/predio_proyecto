@@ -1,0 +1,160 @@
+/* Sistema de temas del sitio: colores, modo día/noche, tamaño de letra y contraste */
+
+/* Clases de color del tema (Tailwind v3). Cambian con el tema activo. */
+@layer utilities {
+    .bg-superficie {
+        background-color: var(--superficie);
+    }
+
+    .bg-fondo {
+        background-color: var(--fondo);
+    }
+
+    .text-texto {
+        color: var(--texto);
+    }
+
+    .text-texto-suave {
+        color: var(--texto-suave);
+    }
+
+    .border-borde {
+        border-color: var(--borde);
+    }
+
+    .divide-borde > :not([hidden]) ~ :not([hidden]) {
+        border-color: var(--borde);
+    }
+
+    .ring-borde {
+        --tw-ring-color: var(--borde);
+    }
+}
+
+/* Base: Adultos, modo día */
+:root {
+    --primario: #1e3a8a;
+    --primario-oscuro: #1e40af;
+    --primario-profundo: #172554;
+    --secundario: #f59e0b;
+    --secundario-claro: #fbbf24;
+    --fondo: #f1f5f9;
+    --superficie: #ffffff;
+    --texto: #0f172a;
+    --texto-suave: #475569;
+    --borde: #cbd5e1;
+    font-size: 16px;
+    color-scheme: light;
+}
+
+/* Temas */
+:root[data-tema="jovenes"] {
+    --primario: #6d28d9;
+    --primario-oscuro: #5b21b6;
+    --primario-profundo: #4c1d95;
+    --secundario: #f97316;
+    --secundario-claro: #fb923c;
+    --fondo: #f5f3ff;
+    --superficie: #ffffff;
+    --texto: #1e1b4b;
+    --texto-suave: #4c4a6b;
+    --borde: #c4b5fd;
+}
+
+:root[data-tema="ninos"] {
+    --primario: #0369a1;
+    --primario-oscuro: #075985;
+    --primario-profundo: #0c4a6e;
+    --secundario: #facc15;
+    --secundario-claro: #fde047;
+    --fondo: #f0f9ff;
+    --superficie: #ffffff;
+    --texto: #0f172a;
+    --texto-suave: #334155;
+    --borde: #7dd3fc;
+}
+
+/* Niños: letra más grande por defecto, si no eligieron otro tamaño */
+:root[data-tema="ninos"][data-letra="normal"] {
+    font-size: 18px;
+}
+
+/* Modo noche */
+:root[data-modo="noche"] {
+    --fondo: #0b1220;
+    --superficie: #111a2e;
+    --texto: #e5e7eb;
+    --texto-suave: #a7b1c2;
+    --borde: #33405c;
+    color-scheme: dark;
+}
+
+:root[data-modo="noche"][data-tema="adultos"] {
+    --primario: #3b82f6;
+    --primario-oscuro: #2563eb;
+    --primario-profundo: #1e3a8a;
+    --secundario: #fbbf24;
+    --secundario-claro: #fcd34d;
+}
+
+:root[data-modo="noche"][data-tema="jovenes"] {
+    --primario: #8b5cf6;
+    --primario-oscuro: #7c3aed;
+    --primario-profundo: #5b21b6;
+    --secundario: #fb923c;
+    --secundario-claro: #fdba74;
+}
+
+:root[data-modo="noche"][data-tema="ninos"] {
+    --primario: #0284c7;
+    --primario-oscuro: #0369a1;
+    --primario-profundo: #075985;
+    --secundario: #facc15;
+    --secundario-claro: #fde047;
+}
+
+/* Tamaño de letra: todo el texto usa rem, así que escala completo */
+:root[data-letra="grande"] {
+    font-size: 19px;
+}
+
+:root[data-letra="muy-grande"] {
+    font-size: 22px;
+}
+
+/* Alto contraste */
+:root[data-contraste="alto"] {
+    --texto: #000000;
+    --texto-suave: #1f2937;
+    --borde: #6b7280;
+}
+
+:root[data-contraste="alto"][data-modo="noche"] {
+    --fondo: #000000;
+    --superficie: #0b0b0b;
+    --texto: #ffffff;
+    --texto-suave: #e5e7eb;
+    --borde: #9ca3af;
+}
+
+/* Accesibilidad general */
+body {
+    background-color: var(--fondo);
+    color: var(--texto);
+}
+
+:focus-visible {
+    outline: 3px solid var(--secundario);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
