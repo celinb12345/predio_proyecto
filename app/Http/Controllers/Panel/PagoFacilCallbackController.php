@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Panel;
+use App\Http\Controllers\Controller;
 use App\Services\PagoQrService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

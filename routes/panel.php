@@ -23,7 +23,7 @@ use App\Http\Controllers\Panel\CalendarioSolicitudController;
 use App\Http\Controllers\Panel\DeudorController;
 use App\Http\Controllers\Panel\PlanCuotasController;
 use App\Http\Controllers\Panel\PagoQrController;
-use App\Http\Controllers\PagoFacilCallbackController;
+use App\Http\Controllers\Panel\PagoFacilCallbackController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
