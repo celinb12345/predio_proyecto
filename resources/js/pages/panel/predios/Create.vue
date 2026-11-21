@@ -11,8 +11,8 @@ defineProps<{
 
 const estados = [
     { valor: 'disponible', texto: 'Disponible' },
-    { valor: 'mantenimiento', texto: 'En mantenimiento' },
-    { valor: 'inhabilitado', texto: 'Inhabilitado' },
+    { valor: 'en_mantenimiento', texto: 'En mantenimiento' },
+    { valor: 'inactivo', texto: 'Inhabilitado' },
 ];
 
 const form = useForm({

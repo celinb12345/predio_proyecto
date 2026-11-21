@@ -41,14 +41,14 @@ function buscarPredios() {
 
 const etiquetasEstado: Record<string, string> = {
     disponible: 'Disponible',
-    mantenimiento: 'En mantenimiento',
-    inhabilitado: 'Inhabilitado',
+    en_mantenimiento: 'En mantenimiento',
+    inactivo: 'Inhabilitado',
 };
 
 const clasesEstado: Record<string, string> = {
     disponible: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
-    mantenimiento: 'bg-amber-50 text-amber-800 ring-amber-200',
-    inhabilitado: 'bg-fondo text-texto-suave ring-borde',
+    en_mantenimiento: 'bg-amber-50 text-amber-800 ring-amber-200',
+    inactivo: 'bg-fondo text-texto-suave ring-borde',
 };
 
 const campoBuscar =

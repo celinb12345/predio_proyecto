@@ -24,7 +24,7 @@ class PredioRequest extends FormRequest
             'capacidad' => ['nullable', 'integer', 'min:0'],
             'ubicacion' => ['nullable', 'string', 'max:255'],
             'link_google_maps' => ['nullable', 'url:https', 'max:500'],
-            'estado' => ['required', Rule::in(['disponible', 'mantenimiento', 'inhabilitado'])],
+            'estado' => ['required', Rule::in(['disponible', 'en_mantenimiento', 'inactivo'])],
             'tipo_predio_id' => ['required', 'integer', 'exists:tipo_predios,id'],
             'responsable_id' => ['required', 'integer', 'exists:responsables,id'],
         ];
