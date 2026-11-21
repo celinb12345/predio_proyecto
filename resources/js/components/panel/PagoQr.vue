@@ -30,6 +30,11 @@ const ahora = ref(Date.now());
 
 let intervaloEstado: number | undefined;
 let intervaloReloj: number | undefined;
+// Evita que se acumulen consultas si una respuesta tarda más que el intervalo
+let consultando = false;
+
+// Cada 8 segundos: menos carga sobre el servidor y sobre PagoFácil
+const INTERVALO_ESTADO_MS = 8000;
 
 const srcQr = computed(() =>
     qrImagen.value.startsWith('data:') ? qrImagen.value : `data:image/png;base64,${qrImagen.value}`,
@@ -81,7 +86,7 @@ function detenerVigilancia() {
 
 function iniciarVigilancia() {
     detenerVigilancia();
-    intervaloEstado = window.setInterval(consultarEstado, 4000);
+    intervaloEstado = window.setInterval(consultarEstado, INTERVALO_ESTADO_MS);
     intervaloReloj = window.setInterval(() => (ahora.value = Date.now()), 1000);
 }
 
@@ -103,6 +108,9 @@ async function generarQr() {
 }
 
 async function consultarEstado() {
+    if (consultando) return;
+    consultando = true;
+
     try {
         const { estado } = await pedir<RespuestaEstado>(urlEstado.value, 'GET');
 
@@ -118,6 +126,8 @@ async function consultarEstado() {
         }
     } catch {
         // Un fallo puntual de red no detiene la espera: se reintenta en el siguiente ciclo
+    } finally {
+        consultando = false;
     }
 }
 
