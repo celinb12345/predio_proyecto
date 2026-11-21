@@ -11,6 +11,7 @@ import {
     GraduationCap,
     Mail,
     MapPin,
+    MessageCircle,
     Phone,
     Search,
     ShieldCheck,
@@ -25,6 +26,13 @@ defineProps<{
     };
     autenticado: boolean;
 }>();
+
+// Número de Secretaría General con código de país (Bolivia 591), sin + ni espacios
+const WHATSAPP_SECRETARIA = '59175583772';
+const mensajeWhatsapp =
+    'Hola, quiero solicitar la habilitación de mi cuenta en el sistema de gestión de predios FICH. ' +
+    'Mis datos: nombre completo, CI, celular, correo, tipo de persona y rol (Director, Estudiante o Cliente).';
+const whatsappUrl = `https://wa.me/${WHATSAPP_SECRETARIA}?text=${encodeURIComponent(mensajeWhatsapp)}`;
 
 const pasos = [
     {
@@ -182,12 +190,26 @@ const anio = new Date().getFullYear();
                     <h2 class="text-2xl font-bold">¿Necesitas un ambiente para tu evento?</h2>
                     <p class="mt-2 text-white/80">Revisa la disponibilidad y envía tu solicitud en pocos minutos.</p>
                 </div>
-                <Link
-                    :href="autenticado ? '/panel' : '/login'"
-                    class="shrink-0 rounded-lg bg-[var(--secundario)] px-6 py-3 text-sm font-semibold text-[var(--primario-profundo)] hover:bg-[var(--secundario-claro)]"
-                >
-                    {{ autenticado ? 'Ir al panel' : 'Iniciar sesión' }}
-                </Link>
+
+                <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
+                    <a
+                        v-if="!autenticado"
+                        :href="whatsappUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-superficie/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/30 hover:bg-superficie/20"
+                    >
+                        <MessageCircle class="h-4 w-4" />
+                        Pedir habilitación por WhatsApp
+                    </a>
+
+                    <Link
+                        :href="autenticado ? '/panel' : '/login'"
+                        class="inline-flex items-center justify-center rounded-lg bg-[var(--secundario)] px-6 py-3 text-sm font-semibold text-[var(--primario-profundo)] hover:bg-[var(--secundario-claro)]"
+                    >
+                        {{ autenticado ? 'Ir al panel' : 'Iniciar sesión' }}
+                    </Link>
+                </div>
             </div>
         </section>
 
