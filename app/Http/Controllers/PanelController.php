@@ -15,6 +15,10 @@ class PanelController extends Controller
         $hoy = now()->toDateString();
         $dentroDe7Dias = now()->addDays(7)->toDateString();
 
+        $solicitudesPendientes = DB::table('solicitudes')
+            ->where('estado', 'pendiente')
+            ->count();
+
         $indicadores = DB::table('predios')
             ->selectRaw('count(*) as total')
             ->selectRaw("count(*) filter (where estado = 'disponible') as disponibles")
@@ -41,6 +45,7 @@ class PanelController extends Controller
                 'name' => $request->user()->name,
                 'rol' => $request->user()->rol?->descripcion,
             ],
+            'solicitudesPendientes' => (int) $solicitudesPendientes,
             'indicadores' => [
                 'total' => (int) $indicadores->total,
                 'disponibles' => (int) $indicadores->disponibles,

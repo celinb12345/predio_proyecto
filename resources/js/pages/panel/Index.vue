@@ -5,6 +5,7 @@ import { Link } from '@inertiajs/vue3';
 
 defineProps<{
     usuario: { name: string; rol: string };
+    solicitudesPendientes: number;
     indicadores: {
         total: number;
         disponibles: number;
@@ -21,7 +22,11 @@ defineProps<{
             Bienvenido, <span class="font-semibold">{{ usuario.name }}</span>.
         </p>
 
-        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
+            <Link href="/panel/solicitudes" :class="formulario.tarjeta">
+                <p class="text-sm text-texto-suave">Solicitudes pendientes</p>
+                <p class="mt-2 text-3xl font-semibold text-amber-700">{{ solicitudesPendientes }}</p>
+            </Link>
             <Link href="/panel/predios" :class="formulario.tarjeta">
                 <p class="text-sm text-texto-suave">Predios registrados</p>
                 <p class="mt-2 text-3xl font-semibold text-[var(--primario)]">{{ indicadores.total }}</p>
