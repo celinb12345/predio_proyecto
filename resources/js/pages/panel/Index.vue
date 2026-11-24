@@ -1,36 +1,62 @@
 ﻿<script setup lang="ts">
 import PanelLayout from '@/components/panel/PanelLayout.vue';
-import { modulosPara } from '@/lib/panel-menu';
+import { formulario } from '@/lib/estilos';
 import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
-const props = defineProps<{
+defineProps<{
     usuario: { name: string; rol: string };
+    indicadores: {
+        total: number;
+        disponibles: number;
+        en_mantenimiento: number;
+        inactivos: number;
+    };
+    mantenimientos: { id: number; predio: string; inicio: string; fin: string }[];
 }>();
-
-const modulos = computed(() => modulosPara(props.usuario.rol));
 </script>
 
 <template>
     <PanelLayout titulo="Inicio" :usuario="usuario">
         <p class="mb-6 text-texto-suave">
-            Bienvenido, <span class="font-semibold">{{ usuario.name }}</span>. Estas son tus funciones como
-            <span class="font-semibold">{{ usuario.rol }}</span>.
+            Bienvenido, <span class="font-semibold">{{ usuario.name }}</span>.
         </p>
 
-        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            <Link
-                v-for="m in modulos"
-                :key="m.codigo"
-                :href="m.href"
-                class="rounded-xl bg-superficie p-5 ring-1 ring-borde transition hover:shadow-md hover:ring-[var(--secundario)]"
-            >
-                <span class="rounded bg-[var(--primario)] px-2 py-0.5 text-xs font-bold text-white">{{ m.codigo }}</span>
-                <h2 class="mt-3 text-lg font-semibold text-[var(--primario)]">{{ m.nombre }}</h2>
-                <p class="mt-2 text-sm text-texto-suave">{{ m.descripcion }}</p>
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <Link href="/panel/predios" :class="formulario.tarjeta">
+                <p class="text-sm text-texto-suave">Predios registrados</p>
+                <p class="mt-2 text-3xl font-semibold text-[var(--primario)]">{{ indicadores.total }}</p>
+            </Link>
+            <Link href="/panel/predios" :class="formulario.tarjeta">
+                <p class="text-sm text-texto-suave">Disponibles</p>
+                <p class="mt-2 text-3xl font-semibold text-emerald-700">{{ indicadores.disponibles }}</p>
+            </Link>
+            <Link href="/panel/predios" :class="formulario.tarjeta">
+                <p class="text-sm text-texto-suave">En mantenimiento</p>
+                <p class="mt-2 text-3xl font-semibold text-amber-700">{{ indicadores.en_mantenimiento }}</p>
+            </Link>
+            <Link href="/panel/predios" :class="formulario.tarjeta">
+                <p class="text-sm text-texto-suave">Inhabilitados</p>
+                <p class="mt-2 text-3xl font-semibold text-texto-suave">{{ indicadores.inactivos }}</p>
             </Link>
         </div>
 
-        <p v-if="modulos.length === 0" class="text-texto-suave">Tu rol todavía no tiene funciones asignadas.</p>
+        <section :class="[formulario.tarjeta, 'mt-8']">
+            <div class="flex items-center justify-between gap-3">
+                <h2 :class="formulario.titulo">Mantenimientos en los próximos 7 días</h2>
+                <Link href="/panel/mantenimiento" class="text-sm font-semibold text-[var(--primario)] hover:underline">
+                    Ver todos
+                </Link>
+            </div>
+
+            <ul v-if="mantenimientos.length" class="mt-4 divide-y divide-borde">
+                <li v-for="m in mantenimientos" :key="m.id" class="flex flex-wrap justify-between gap-2 py-3 text-sm">
+                    <span class="font-medium text-texto">{{ m.predio }}</span>
+                    <span class="text-texto-suave">
+                        {{ m.inicio }}<template v-if="m.fin !== m.inicio"> al {{ m.fin }}</template>
+                    </span>
+                </li>
+            </ul>
+            <p v-else class="mt-4 text-sm text-texto-suave">No hay mantenimientos programados en los próximos 7 días.</p>
+        </section>
     </PanelLayout>
 </template>
