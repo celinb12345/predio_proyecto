@@ -23,7 +23,7 @@ defineProps<{
         </p>
 
         <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
-            <Link href="/panel/solicitudes" :class="formulario.tarjeta">
+            <Link href="/panel/solicitantes" :class="formulario.tarjeta">
                 <p class="text-sm text-texto-suave">Solicitudes pendientes</p>
                 <p class="mt-2 text-3xl font-semibold text-amber-700">{{ solicitudesPendientes }}</p>
             </Link>
